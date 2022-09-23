@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Confession Page</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <p class="navbar-brand" style="color: red !important;">CONFESSION PAGE</p>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li id="home"><a href="/home">HOME</a></li>
+        <li id="confess"><a href="/confess">CONFESSIONS</a></li>
+        <li id="about"><a href="/about">ABOUT</a></li>
+        <li id="contact"><a href="/">LOGOUT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+<body>
+  <div id="particles-js">
+    <h1>Anonymous Confession Page</h1>
+    <p>A page to feel known, loved, accepted and appreciated.</p>
+  </div>
+  <div class="container container1">
+    <h1>Hello friends!</h1>
+    <p>Please follow the rules before confessing</p>
+    <p>Submission Rules:</p>
+    <ol>
+      <li>
+        <p>It must be a confession.</p>
+        <p>A mental health related confession is:</p>
+        <ul>
+          <li>An admission of having done something embarrassing or hurtful</li>
+          <li>An open acknowledgment of feelings: a profession of emotions or beliefs such as love, loyalty,
+            disappointment, sadness
+            or gratitude</li>
+          <li>Sharing of current state of mind, feelings and hardships of coping</li>
+        </ul>
+      </li>
+      <li>No names or contact information to be shared</li>
+      <li>Foul language or revelation of personal information will be edited. Though the integrity of message will be
+        kept.</li>
+      <li>Please keep in mind this is a confessions page, not an opinions page. Political posts, religious views, racial
+        discrimination of any kind, abuse, hate speech or threatening post or submissions will not be tolerated and
+        submissions
+        of such will NOT be posted and the user may be blocked.</li>
+      <li>Refrain from defamation, controversial topics and hurtful comments. Offensive or unverified topics are not to
+        be
+        discussed and will not be posted. This is not a place for heated debates! Be respectful to everyone.</li>
+    </ol>
+  </div>
+  <div class="container container2">
+    <h1>Confess</h1>
+    <form class="" action="/home" method="post">
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" class="form-control" name="Author" placeholder="Enter your username">
+        <label>Title</label>
+        <input class="form-control" type="text" name="postTitle">
+        <label>Category</label>
+        <select name="postCategory" class="form-control">
+          <option value="Family">Family</option>
+          <option value="Friends">Friends</option>
+          <option value="Relative">Relative</option>
+          <option value="School/College">School/College</option>
+          <option value="Office">Office</option>
+          <option value="Journey">Journey</option>
+          <option value="Personal">Personal</option>
+          <option value="Habit">Habit</option>
+          <option value="other">other</option>
+        </select>
+        <label>Post</label>
+        <textarea class="form-control" name="postBody" rows="15" cols="30"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" name="button">Publish</button>
+    </form>
+  </div>
+  <%- include("partials/footer"); -%>
