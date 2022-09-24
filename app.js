@@ -24,22 +24,6 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/confessionDB");
 
-// const postSchema = {
-//   title: String,
-//   category: String,
-//   content: String,
-//   postDate: String,
-//   username: String,
-// };
-
-// const userSchema = {
-//   username: String,
-//   password: String
-// };
-
-// const Post = new mongoose.model("Post", postSchema);
-// const User = new mongoose.model("User", userSchema);
-
 app.get("/login", (req, res) => {
   res.render("login");
 })
