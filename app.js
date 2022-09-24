@@ -24,56 +24,8 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/confessionDB");
 
-app.get("/login", (req, res) => {
-  res.render("login");
-})
-
-app.post("/login", (req, res) => {
-  const username = req.body.username;
-  const password = md5(req.body.password);
-  User.findOne({
-    username: username
-  }, (err, foundUser) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (foundUser) {
-        if (foundUser.password === password) {
-          res.render("home", {
-            currentUser: username
-          })
-        }
-      }
-    }
-  })
-})
-
-app.get("/register", (req, res) => {
-  res.render("register");
-})
-
-app.post("/register", (req, res) => {
-
-  const username = req.body.username;
-  const password = req.body.password;
-  const newUser = new User({
-    username: username,
-    password: md5(password)
-  });
-
-  newUser.save((err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("home", {
-        currentUser: username
-      });
-    }
-  })
-})
-
 app.get("/", function (req, res) {
-  res.render("login");
+  res.render("home");
 })
 
 app.get("/home", function (req, res) {
