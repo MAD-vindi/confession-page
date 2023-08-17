@@ -9,9 +9,20 @@ const _ = require("lodash");
 const User = require('./models/user'); 
 const Post = require('./models/post'); 
 
-const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
-const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
-const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
+const aboutContent = `
+    Welcome to our platform, a safe and anonymous space where students can freely share their thoughts, feelings, and confessions. We understand that the journey through education is filled with a multitude of emotions, experiences, and challenges. Our website was born out of the desire to create a supportive community where students can express themselves without fear of judgment. Whether it's a secret, a triumph, a struggle, or a moment of inspiration, this platform is your canvas to paint your stories, knowing that you're not alone in your journey.
+
+    At its core, our platform is built on the principles of empathy, respect, and inclusivity. We believe that everyone's story is unique and deserves to be heard. The power of confession lies in its cathartic effect – a chance to unburden your heart and mind, and in doing so, perhaps find solace in the shared experiences of others. Through anonymity, we aim to foster an environment where students from all walks of life can openly communicate their thoughts, forge connections, and realize that they are part of a larger, compassionate community. So, take a step into this virtual confessional, express yourself authentically, and discover the strength that comes from embracing your truth alongside fellow students.
+`;
+const contactContent = `
+    Have questions, suggestions, or simply want to reach out? We're here to listen. Feel free to get in touch with us using the contact details provided below. Your feedback is invaluable as we continue to improve and grow our platform.
+
+    **Email:** contact@example.com
+    **Phone:** +123-456-7890
+    **Address:** 123 Street, City, Country
+
+    We are committed to maintaining a welcoming and responsive communication channel. Whether you have technical inquiries, partnership proposals, or anything in between, don't hesitate to connect with us. Your voice matters to us, and we look forward to hearing from you.
+`;
 
 const app = express();
 
@@ -22,10 +33,61 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/confessionDB");
+// mongoose.connect("mongodb://admin:password@localhost:27017/confessionDB");
+mongoose.connect(`mongodb://admin:password@localhost:27017/confessionDB?authSource=admin`); //for mongodb in docker
+
+app.get("/login", (req, res) => {
+  res.render("login");
+})
+
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  const password = md5(req.body.password);
+  User.findOne({
+    username: username
+  }, (err, foundUser) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUser) {
+        if (foundUser.password === password) {
+          res.render("home", {
+            currentUser: username
+          })
+        }
+      }else{
+        res.redirect("/register");
+      }
+    }
+  })
+})
+
+app.get("/register", (req, res) => {
+  res.render("register");
+})
+
+app.post("/register", (req, res) => {
+
+  const username = req.body.username;
+  const password = req.body.password;
+  const newUser = new User({
+    username: username,
+    password: md5(password)
+  });
+
+  newUser.save((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("home", {
+        currentUser: username
+      });
+    }
+  })
+})
 
 app.get("/", function (req, res) {
-  res.render("home");
+  res.render("login");
 })
 
 app.get("/home", function (req, res) {
